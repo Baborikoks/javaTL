@@ -1,0 +1,36 @@
+import java.util.Scanner;
+
+class MyProgram {   
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Введите значение x (|x| < 1): ");
+        double x = sc.nextDouble();
+        System.out.print("Введите количество знаков после запятой: ");
+        int k = sc.nextInt();
+        double eps = Math.pow(10, -2 * k);
+
+        if (Math.abs(x) >= 1) {
+            System.out.println("Ошибка: |x| должно быть меньше 1.");
+        } else {
+            // Вычисление ряда Тейлора
+            double taylorResult = 0.0;
+            double coefficient = x; // Начальный член x
+            int n = 1;
+
+            while (Math.abs(coefficient / n) > eps) {
+                taylorResult += coefficient / n; // Суммируем x^n / n
+                coefficient *= x; //  коэффициент для x^(n+1)
+                n++; // Увеличиваем n для следующего члена
+            }
+            taylorResult = -taylorResult; // Учитываем минус
+
+            double standardResult = Math.log(1 - x);
+
+            System.out.printf("Результат ряда Тейлора: %." + k + "f%n", taylorResult);
+            System.out.printf("Результат стандартной функции: %." + k + "f%n", standardResult);
+        }
+
+        sc.close();
+    }
+}
